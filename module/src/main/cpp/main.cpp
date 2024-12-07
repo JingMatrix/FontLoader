@@ -95,10 +95,16 @@ public:
     }
 
     void preAppSpecialize(AppSpecializeArgs *args) override {
+        const char *nice_name = env->GetStringUTFChars(args->nice_name, nullptr);
+        LOGD("preAppSpecialize of [%s]", nice_name);
         InitCompanion();
-        PreloadFonts(env, fonts);
-        HideFromMaps(fonts);
+    }
 
+    void postAppSpecialize(const AppSpecializeArgs *args) override {
+        const char *nice_name = env->GetStringUTFChars(args->nice_name, nullptr);
+        LOGD("postAppSpecialize of [%s]", nice_name);
+        PreloadFonts(env, fonts);
+        /* HideFromMaps(fonts); */
         api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
     }
 
